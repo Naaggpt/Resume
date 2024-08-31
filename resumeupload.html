@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 2rem;
+ background: url('jk.jpg') no-repeat center center/cover;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container h2 {
+            margin-bottom: 1rem;
+        }
+        .container select, .container input[type="file"], .container button {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container button {
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function showUpload() {
+            const jobCategory = document.getElementById('job-category').value;
+            const uploadSection = document.getElementById('upload-section');
+            uploadSection.innerHTML = `
+                <h3>Upload your resume for ${jobCategory}</h3>
+                <form id="upload-form">
+                    <input type="file" id="resume-file" required>
+                    <button type="button" onclick="uploadResume()">Upload Resume</button>
+                </form>`;
+        }
+
+        function uploadResume() {
+            const jobCategory = document.getElementById('job-category').value;
+            const fileInput = document.getElementById('resume-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('jobCategory', jobCategory);
+            formData.append('resume', file);
+
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Resume uploaded successfully');
+                } else {
+                    alert('Failed to upload resume');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while uploading the resume');
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Your Resume According to Your Job Requirement</h2>
+        <select id="job-category" onchange="showUpload()">
+            <option value="" disabled selected>Select Job Category</option>
+            <option value="Software Developer">Software Developer</option>
+            <option value="Data Scientist">Data Scientist</option>
+            <option value="Project Manager">Project Manager</option>
+            <option value="Graphic Designer">Graphic Designer</option>
+            <option value="Marketing Specialist">Marketing Specialist</option>
+            <option value="Sales Manager">Sales Manager</option>
+            <option value="HR Specialist">HR Specialist</option>
+            <option value="Business Analyst">Business Analyst</option>
+            <option value="Consultant">Consultant</option>
+            <option value="Content Writer">Content Writer</option>
+        </select>
+        <div id="upload-section"></div>
+    </div>
+</body>
+</html>

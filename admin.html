@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 2rem;
+ background: url('jk.jpg') no-repeat center center/cover;
+        }
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container h2 {
+            margin-bottom: 1rem;
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .buttons button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border: none;
+            background: #333;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 2rem;
+            display: none;
+        }
+        .result h3 {
+            margin-bottom: 1rem;
+        }
+        .result ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result ul li {
+            background: #f4f4f4;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Admin Panel</h1>
+        </div>
+     <div class="nav">
+            <a href="login.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Job Categories</h2>
+        <div class="buttons">
+            <button onclick="showResumes('Software Developer')">Software Developer</button>
+            <button onclick="showResumes('Data Scientist')">Data Scientist</button>
+            <button onclick="showResumes('Project Manager')">Project Manager</button>
+            <button onclick="showResumes('Graphic Designer')">Graphic Designer</button>
+            <button onclick="showResumes('Marketing Specialist')">Marketing Specialist</button>
+            <button onclick="showResumes('Sales Manager')">Sales Manager</button>
+            <button onclick="showResumes('HR Specialist')">HR Specialist</button>
+            <button onclick="showResumes('Business Analyst')">Business Analyst</button>
+            <button onclick="showResumes('Consultant')">Consultant</button>
+            <button onclick="showResumes('Content Writer')">Content Writer</button>
+        </div>
+        <div class="result" id="result-section">
+            <h3>Resumes for <span id="job-title"></span></h3>
+            <p>Total Resumes: <span id="resume-count"></span></p>
+            <h4>Top 5 Resumes:</h4>
+            <ul id="resume-list"></ul>
+        </div>
+    </div>
+    <script>
+        const resumesData = {
+            "Software Developer": [
+                { name: "John Doe", score: 85 },
+                { name: "Jane Smith", score: 90 },
+                { name: "Bob Johnson", score: 75 },
+                { name: "Alice Davis", score: 95 },
+                { name: "Charlie Brown", score: 80 },
+                { name: "David Wilson", score: 70 },
+            ],
+            // Add more job categories and resumes as needed
+        };
+
+        function showResumes(jobCategory) {
+            const resultSection = document.getElementById('result-section');
+            const jobTitle = document.getElementById('job-title');
+            const resumeCount = document.getElementById('resume-count');
+            const resumeList = document.getElementById('resume-list');
+
+            const resumes = resumesData[jobCategory] || [];
+            const sortedResumes = resumes.sort((a, b) => b.score - a.score).slice(0, 5);
+
+            jobTitle.innerText = jobCategory;
+            resumeCount.innerText = resumes.length;
+            resumeList.innerHTML = '';
+
+            sortedResumes.forEach(resume => {
+                const li = document.createElement('li');
+                li.innerText = `${resume.name} (Score: ${resume.score})`;
+                resumeList.appendChild(li);
+            });
+
+            resultSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
